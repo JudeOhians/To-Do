@@ -25,6 +25,18 @@ app.get("/api/todos", async (req, res) => {
     }
 })
 
+app.delete("/api/todos/:id", async (req, res) => {
+    const todoId = req.params.id;
+  
+    try {
+      await sql`DELETE FROM todos WHERE id = ${todoId}`;
+      res.status(204).send(); // No content response for successful deletion
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
 
 app.post("/api/todos2", async (req, res) => {
     const { task, is_completed } = req.body
